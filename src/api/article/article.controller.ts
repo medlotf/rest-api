@@ -9,7 +9,8 @@ import {
 } from "./article.service";
 
 export const create = async (req: Request, res: Response) => {
-  const article = await createArticle(req.body);
+  const userId = res.locals.user.id;
+  const article = await createArticle(req.body, userId);
   return res.status(201).send(article);
 };
 
@@ -24,11 +25,14 @@ export const findOne = async (req: Request, res: Response) => {
 };
 
 export const update = async (req: Request, res: Response) => {
-  const article = await updateArticle(Number(req.params.id), req.body);
+  const userId = res.locals.user.id;
+
+  const article = await updateArticle(Number(req.params.id), req.body, userId);
   return res.status(200).send(article);
 };
 
 export const del = async (req: Request, res: Response) => {
-  await deleteArticle(Number(req.params.id));
+  const userId = res.locals.user.id;
+  await deleteArticle(Number(req.params.id), userId);
   return res.status(204).send();
 };

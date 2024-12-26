@@ -4,12 +4,18 @@ export const getArticles = async () => {
   return db.article.findMany();
 };
 
-export const createArticle = async (data: {
-  title: string;
-  content: string;
-}) => {
+export const createArticle = async (
+  data: {
+    title: string;
+    content: string;
+  },
+  userId: number
+) => {
   return db.article.create({
-    data,
+    data: {
+      ...data,
+      authorId: userId,
+    },
   });
 };
 
@@ -23,20 +29,26 @@ export const getArticleById = async (articleId: number) => {
 
 export const updateArticle = async (
   articleId: number,
-  data: { title: string; content: string }
+  data: { title: string; content: string },
+  userId: number
 ) => {
   return db.article.update({
     where: {
       id: articleId,
+      authorId: userId,
     },
-    data,
+    data: {
+      ...data,
+      authorId: userId,
+    },
   });
 };
 
-export const deleteArticle = async (articleId: number) => {
+export const deleteArticle = async (articleId: number, userId: number) => {
   return db.article.delete({
     where: {
       id: articleId,
+      authorId: userId,
     },
   });
 };
