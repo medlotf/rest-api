@@ -13,6 +13,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  READER
+  WRITER
+  ADMIN
+}
+
+enum RoleRequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
 model Article {
   id        Int      @id @default(autoincrement())
   title     String
@@ -27,5 +39,16 @@ model User {
   email    String    @unique
   username String    @unique
   password String
+  role     Role      @default(READER)
   articles Article[]
+  requests RoleRequest[]
+}
+
+
+model RoleRequest {
+  id Int @id @default(autoincrement())
+  role Role
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  status RoleRequestStatus @default(PENDING)
 }
