@@ -20,7 +20,7 @@ export const LoginUser = async (email: string, password: string) => {
       email,
     },
   });
-  if (!user || !(await bcrypt.compare(password, user.password)))
+  if (!user || !(await bcrypt.compare(password, user.password!)))
     throw new Error("Invalid Credentials");
   return generateToken(user.id);
 };
