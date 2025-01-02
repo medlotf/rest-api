@@ -3,6 +3,7 @@ import passport from "passport";
 
 import api from "./api";
 import "./utils/passport";
+import { ErrorHandler } from "./middleware/ErrorHandler";
 
 const app = express();
 app.use(express.json());
@@ -13,5 +14,6 @@ app.get("/healthcheck", (_req, res) => {
 });
 
 app.use("/", api);
+app.use(ErrorHandler);
 
 export default app;
